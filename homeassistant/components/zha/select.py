@@ -163,8 +163,9 @@ class ZCLEnumSelectEntity(ZhaEntity, SelectEntity):
     """Representation of a ZHA ZCL enum select entity."""
 
     _attribute_name: str
-    _attr_entity_category = EntityCategory.CONFIG
+    _attr_entity_category: EntityCategory | None = EntityCategory.CONFIG
     _enum: type[Enum]
+    _has_state_translation = False
 
     @classmethod
     def create_entity(
@@ -204,7 +205,11 @@ class ZCLEnumSelectEntity(ZhaEntity, SelectEntity):
         self._cluster_handler: ClusterHandler = cluster_handlers[0]
         if QUIRK_METADATA in kwargs:
             self._init_from_quirks_metadata(kwargs[QUIRK_METADATA])
-        self._attr_options = [entry.name.replace("_", " ") for entry in self._enum]
+        if self._has_state_translation:
+            self._attr_options = [entry.name for entry in self._enum]
+        else:
+            self._attr_options = [entry.name.replace("_", " ") for entry in self._enum]
+
         super().__init__(unique_id, zha_device, cluster_handlers, **kwargs)
 
     def _init_from_quirks_metadata(self, entity_metadata: EntityMetadata) -> None:
@@ -221,6 +226,8 @@ class ZCLEnumSelectEntity(ZhaEntity, SelectEntity):
         if option is None:
             return None
         option = self._enum(option)
+        if self._has_state_translation:
+            return option.name
         return option.name.replace("_", " ")
 
     async def async_select_option(self, option: str) -> None:
@@ -691,3 +698,27 @@ class KeypadLockout(ZCLEnumSelectEntity):
     _enum = KeypadLockoutEnum
     _attr_translation_key: str = "keypad_lockout"
     _attr_icon: str = "mdi:lock"
+
+
+class LegrandCableOutletHeatModeEnum(types.enum8):
+    """Heat mode."""
+
+    comfort = 0x00
+    comfort_minus_1 = 0x01
+    comfort_minus_2 = 0x02
+    eco = 0x03
+    frost_protection = 0x04
+    off = 0x05
+
+
+@CONFIG_DIAGNOSTIC_MATCH(cluster_handler_names="cable_outlet_cluster")
+class LegrandCableOutletHeatMode(ZCLEnumSelectEntity):
+    """Representation of an Legrand cable outlet heat mode configuration entity."""
+
+    _has_state_translation = True
+    _unique_id_suffix = "heat_mode"
+    _attribute_name = "heat_mode"
+    _enum = LegrandCableOutletHeatModeEnum
+    _attr_entity_category = None
+    _attr_translation_key: str = "heat_mode"
+    _attr_icon: str = "mdi:home-thermometer"
