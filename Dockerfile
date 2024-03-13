@@ -17,6 +17,8 @@ ARG QEMU_CPU
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 COPY uv /root/.cargo/bin/
+RUN chmod +x /root/.cargo/bin/uv
+RUN uv --version
 
 WORKDIR /usr/src
 
