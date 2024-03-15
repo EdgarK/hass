@@ -2841,6 +2841,9 @@ webmin-xmlrpc==0.0.2
 # homeassistant.components.assist_pipeline
 webrtc-noise-gain==1.2.3
 
+# homeassistant.components.ender
+websocket-client==1.7.0
+
 # homeassistant.components.whirlpool
 whirlpool-sixth-sense==0.18.4
 

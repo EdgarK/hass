@@ -143,6 +143,7 @@ FLOWS = {
         "elvia",
         "emonitor",
         "emulated_roku",
+        "ender",
         "energyzero",
         "enocean",
         "enphase_envoy",

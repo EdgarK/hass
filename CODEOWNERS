@@ -359,6 +359,8 @@ build.json @home-assistant/supervisor
 /tests/components/emulated_hue/ @bdraco @Tho85
 /homeassistant/components/emulated_kasa/ @kbickar
 /tests/components/emulated_kasa/ @kbickar
+/homeassistant/components/ender/ @EdgarK
+/tests/components/ender/ @EdgarK
 /homeassistant/components/energy/ @home-assistant/core
 /tests/components/energy/ @home-assistant/core
 /homeassistant/components/energyzero/ @klaasnicolaas

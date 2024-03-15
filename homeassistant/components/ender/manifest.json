@@ -1,0 +1,13 @@
+{
+  "domain": "ender",
+  "name": "Ender",
+  "codeowners": ["@EdgarK"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/ender",
+  "homekit": {},
+  "iot_class": "local_polling",
+  "requirements": ["websocket-client==1.7.0"],
+  "ssdp": [],
+  "zeroconf": []
+}
